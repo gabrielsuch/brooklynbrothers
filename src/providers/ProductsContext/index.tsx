@@ -1,6 +1,6 @@
 import {createContext, useContext, useState, ReactNode} from "react"
 
-import {api} from "../../services/api"
+import axios from "axios"
 
 
 interface ChildrenProps {
@@ -49,7 +49,7 @@ export const ProductsProvider = ({children}: ChildrenProps) => {
     }
 
     const getProducts = () => {
-        api.get("productsCategory.json")
+        axios.get("productsCategory.json")
         .then((response) => {
             setProducts(response.data.data.nodes)
         })
