@@ -25,16 +25,20 @@ export const Container = styled.div `
         .content {
             height: auto;
             font-family: "Kdam Thmor Pro", sans-serif;
-    
-            h2 {
-                color: white;
-                padding-top: 10px;
-                font-size: 1.3rem;
+            
+            .title {
+                h2 {
+                    color: white;
+                    padding-top: 10px;
+                    font-size: 1.3rem;
+                }
             }
-            p {
-                color: gray;
-                padding: 10px 0px;
-                font-size: 1rem;
+            .description {
+                p {
+                    color: gray;
+                    padding: 10px 0px;
+                    font-size: 1rem;
+                }
             }
         }
     }

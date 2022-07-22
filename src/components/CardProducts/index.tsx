@@ -35,8 +35,12 @@ const CardProducts = ({product}: Product) => {
             </div>
             <div className="info">
                 <div className="content">
-                    <h2>{product.name}</h2>
-                    <p>{product.shortDescription}</p>
+                    <div className="title">
+                        <h2>{product.name}</h2>
+                    </div>
+                    <div className="description">
+                        <p>{product.shortDescription}</p>
+                    </div>
                 </div>
             </div>
             <div className="category">
