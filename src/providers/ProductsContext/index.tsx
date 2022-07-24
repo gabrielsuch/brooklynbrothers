@@ -31,9 +31,12 @@ interface ProductsProps {
 
 interface ContextDataProps {
     category: string
+    categories: string[]
+    selectedCategory: string
     products: ProductsProps[]
-    categoryFunction: (word: string) => void
     getProducts: () => void
+    getCategories: () => void
+    selectCategory: (category: string) => void
 }
 
 
@@ -42,11 +45,9 @@ const ProductsContext = createContext<ContextDataProps>({} as ContextDataProps)
 
 export const ProductsProvider = ({children}: ChildrenProps) => {
     const [category, setCategory] = useState<string>("")
+    const [selectedCategory, setSelectedCategory] = useState<string>("Todos")
     const [products, setProducts] = useState<ProductsProps[]>([] as ProductsProps[])
-
-    const categoryFunction = (word: string) => {
-        setCategory(word)
-    }
+    const [categories, setCategories] = useState<string[]>([] as string[])
 
     const getProducts = () => {
         axios.get("productsCategory.json")
@@ -58,8 +59,35 @@ export const ProductsProvider = ({children}: ChildrenProps) => {
         })
     }
 
+    const getCategories = () => {
+        axios.get("productsCategory.json")
+        .then((response) => {
+            const productsList = response.data.data.nodes
+
+            let tempCategories: any = ["Todos"]
+
+            productsList.map((product: ProductsProps) => {
+                const productExists = tempCategories.includes(product.category.name)
+
+                if(!productExists) {
+                    tempCategories = [...tempCategories, product.category.name]
+                }
+            })
+
+
+            setCategories(tempCategories)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const selectCategory = (category: string) => {
+        setSelectedCategory(category)
+    }
+
     return (
-        <ProductsContext.Provider value={{category, products, categoryFunction, getProducts}}>
+        <ProductsContext.Provider value={{category, categories, selectedCategory, products, getProducts, getCategories, selectCategory}}>
             {children}
         </ProductsContext.Provider>
     )

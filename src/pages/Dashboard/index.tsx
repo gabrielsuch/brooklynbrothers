@@ -3,23 +3,24 @@ import {Container} from "./style"
 import {useEffect} from "react"
 
 import Header from "../../components/Header/index"
+import CardCategories from "../../components/CardCategories/index"
 
 import CardProducts from "../../components/CardProducts/index"
-import NoProductsFound from "../../components/NoProductsFound"
 
 import {useProducts} from "../../providers/ProductsContext/index"
 
 
 const Dashboard = () => {
 
-    const {getProducts, products, category} = useProducts()
+    const {getProducts, products, getCategories, categories, selectedCategory} = useProducts()
 
     useEffect(() => {
         getProducts()
+        getCategories()
     }, [])
 
     const filteredProducts = products.filter((product) => {
-        return product.category.name.toLowerCase().includes(category.toLowerCase())
+        return product.category.name.toLowerCase() === selectedCategory.toLowerCase()
     })
 
 
@@ -27,15 +28,23 @@ const Dashboard = () => {
         <>
             <Header/>
             <Container>
+                <div className="categories">
+                    {
+                        categories.map((category, index) => (
+                            <CardCategories key={index} category={category}/>
+                        ))
+                    }
+                </div>
                 <div className="products">
                     {
-                        filteredProducts.length > 0 
-                        ?
-                        filteredProducts.map((product) => (
+                        selectedCategory === "Todos" ?
+                        products.map((product) => (
                             <CardProducts key={product.id} product={product}/>
                         ))
                         :
-                        <NoProductsFound/>
+                        filteredProducts.map((product) => (
+                            <CardProducts key={product.id} product={product}/>
+                        ))
                     }
                 </div>
             </Container>

@@ -9,7 +9,7 @@ export const Container = styled.header `
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 
     .logo {
