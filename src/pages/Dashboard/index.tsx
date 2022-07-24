@@ -10,6 +10,29 @@ import CardProducts from "../../components/CardProducts/index"
 import {useProducts} from "../../providers/ProductsContext/index"
 
 
+interface AssetProps {
+    url: string
+}
+
+interface ImageProps {
+    asset: AssetProps
+    alt: string
+}
+
+interface CategoryProps {
+    name: string
+    id: string
+}
+
+interface ProductsProps {
+    name: string
+    shortDescription: string
+    id: string
+    images: ImageProps[]
+    category: CategoryProps
+}
+
+
 const Dashboard = () => {
 
     const {getProducts, products, getCategories, categories, selectedCategory} = useProducts()
@@ -19,7 +42,7 @@ const Dashboard = () => {
         getCategories()
     }, [])
 
-    const filteredProducts = products.filter((product) => {
+    const filteredProducts = products.filter((product: ProductsProps) => {
         return product.category.name.toLowerCase() === selectedCategory.toLowerCase()
     })
 
@@ -30,7 +53,7 @@ const Dashboard = () => {
             <Container>
                 <div className="categories">
                     {
-                        categories.map((category, index) => (
+                        categories.map((category: string, index) => (
                             <CardCategories key={index} category={category}/>
                         ))
                     }
@@ -38,11 +61,11 @@ const Dashboard = () => {
                 <div className="products">
                     {
                         selectedCategory === "Todos" ?
-                        products.map((product) => (
+                        products.map((product: ProductsProps) => (
                             <CardProducts key={product.id} product={product}/>
                         ))
                         :
-                        filteredProducts.map((product) => (
+                        filteredProducts.map((product: ProductsProps) => (
                             <CardProducts key={product.id} product={product}/>
                         ))
                     }
