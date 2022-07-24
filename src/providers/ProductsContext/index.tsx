@@ -30,7 +30,6 @@ interface ProductsProps {
 }
 
 interface ContextDataProps {
-    category: string
     categories: string[]
     selectedCategory: string
     products: ProductsProps[]
@@ -44,7 +43,6 @@ const ProductsContext = createContext<ContextDataProps>({} as ContextDataProps)
 
 
 export const ProductsProvider = ({children}: ChildrenProps) => {
-    const [category, setCategory] = useState<string>("")
     const [selectedCategory, setSelectedCategory] = useState<string>("Todos")
     const [products, setProducts] = useState<ProductsProps[]>([] as ProductsProps[])
     const [categories, setCategories] = useState<string[]>([] as string[])
@@ -64,7 +62,7 @@ export const ProductsProvider = ({children}: ChildrenProps) => {
         .then((response) => {
             const productsList = response.data.data.nodes
 
-            let tempCategories: any = ["Todos"]
+            let tempCategories: string[] = ["Todos"]
 
             productsList.map((product: ProductsProps) => {
                 const productExists = tempCategories.includes(product.category.name)
@@ -87,7 +85,7 @@ export const ProductsProvider = ({children}: ChildrenProps) => {
     }
 
     return (
-        <ProductsContext.Provider value={{category, categories, selectedCategory, products, getProducts, getCategories, selectCategory}}>
+        <ProductsContext.Provider value={{categories, selectedCategory, products, getProducts, getCategories, selectCategory}}>
             {children}
         </ProductsContext.Provider>
     )
